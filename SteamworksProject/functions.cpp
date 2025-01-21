@@ -11,13 +11,16 @@ void callbackLitentToInterface(BYTE* packet, DWORD size)
     string dst_ip = temp.dst_ip;
     CSteamID steamID = steam.getUserbyIP(dst_ip);
 
+
     if (steamID != k_steamIDNil) {
-        steam.SendDataToUser(steamID, packet, size);
+        Data compress = compressZlib(packet, size);
+        steam.SendDataToUser(steamID, compress.data, compress.size);
     }
 }
 void callbackLiteningToSteam(BYTE* packet, DWORD size)
 {
-    wintunManager.sendPacket(packet, size);
+    Data Decompress = DecompressZlib(packet, size);
+    wintunManager.sendPacket(Decompress.data, Decompress.size);
 };
 
 
