@@ -20,6 +20,13 @@
 #include <iphlpapi.h>
 #include <unordered_map>
 #include "WintunManager.h"
+#include <zlib.h> 
+
+struct Data
+{
+    BYTE* data;
+    int size;
+};
 
 extern Steam steam;
 extern std::wstring steamIP;
@@ -28,3 +35,6 @@ extern WintunManager wintunManager;
 
 void callbackLitentToInterface(BYTE* packet, DWORD size);
 void callbackLiteningToSteam(BYTE* packet, DWORD size);
+
+Data compressZlib(BYTE* input, DWORD inputSize);
+Data DecompressZlib(BYTE* compressedData, int compressedSize);
